@@ -1,109 +1,31 @@
+#include <assert.h>
 #include <stdio.h>
 
 #include "list.h"
 
+void list_info(list_t *prev, list_t *curr) {
+	printf("%p, %p\n", prev, curr);
+	printf("data: %d, ptr: %p\n", prev->data, prev->ptr);
+	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
+}
+
 int main(void) {
-	list_t head, prev, curr, next;
+	int i, L = 0, N = 10;
+	list_t *head, *prev, *curr;
 
-	head = next = list_append(NULL, NULL, 1);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-	prev = head;
-	curr = next;
-	next = list_append(prev, curr, 2);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-	prev = curr;
-	curr = next;
-	next = list_append(prev, curr, 3);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-	prev = curr;
-	curr = next;
-	next = list_append(prev, curr, 4);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-	prev = curr;
-	curr = next;
-	next = list_append(prev, curr, 5);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-	prev = curr;
-	curr = next;
-	next = list_append(prev, curr, 6);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", next->data, next->ptr);
-
+	head = prev = curr = NULL;
+	for (i = 0; i < N; i++) {
+		list_append(&prev, &curr, i);
+		if (i == 0) head = curr;
+		list_info(prev, curr);
+	}
 	printf("\n");
-	printf("%p\n", head);
-	printf("data: %d, ptr: %p\n", head->data, head->ptr);
 	prev = curr = head;
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	list_step(&prev, &curr);
-	printf("%p\n", next);
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	if (next == curr) printf("done\n");
+	do {
+		list_info(prev, curr);
+		list_step(&prev, &curr);
+	} while (prev != curr && ++L < N);
+	assert(L != N && "This should not happen!\n");
 
-	/*
-	// Node 1
-	head = prev = curr = list_append(NULL, NULL, 1);
-	// Node 2
-	curr = list_append(prev, curr, 2);
-	// Node 3
-	next = list_append(prev, curr, 3);
-	// Node 4
-	prev = curr;
-	curr = next;
-	next = list_append(prev, curr, 4);
-	*/
-
-
-	/*
-	prev = curr = head;
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	next = list_step(&prev, &curr);
-	if (next == curr) {
-		fprintf(stderr, "unexpected end of list!\n");
-		return 1;
-	}
-	prev = curr;
-	curr = next;
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	next = list_step(&prev, &curr);
-	if (next == curr) {
-		fprintf(stderr, "unexpected end of list!\n");
-		return 1;
-	}
-	prev = curr;
-	curr = next;
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	next = list_step(&prev, &curr);
-	if (next == curr) {
-		fprintf(stderr, "unexpected end of list!\n");
-		return 1;
-	}
-	prev = curr;
-	curr = next;
-	printf("data: %d, ptr: %p\n", curr->data, curr->ptr);
-	next = list_step(&prev, &curr);
-	if (next != curr) {
-		fprintf(stderr, "expected end of list\n");
-		return 1;
-	}
-	*/
 	return 0;
 }
