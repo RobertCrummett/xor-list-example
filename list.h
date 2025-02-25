@@ -8,6 +8,6 @@ struct list_t {
 };
 
 extern list_t list_append(list_t prev, list_t curr, int value);
-extern list_t list_step(list_t prev, list_t curr);
+extern void list_step(list_t *prev, list_t *curr);
 
 #endif
