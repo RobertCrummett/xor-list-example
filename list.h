@@ -10,4 +10,6 @@ struct list_t {
 extern void list_append(list_t **prev, list_t **curr, int value);
 extern void list_step(list_t **prev, list_t **curr);
 
+extern void list_free(list_t **head);
+
 #endif

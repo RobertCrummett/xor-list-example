@@ -10,7 +10,7 @@ void list_info(list_t *prev, list_t *curr) {
 }
 
 int main(void) {
-	int i, L = 0, N = 10;
+	int i, L = 0, N = 999;
 	list_t *head, *prev, *curr;
 
 	head = prev = curr = NULL;
@@ -26,6 +26,9 @@ int main(void) {
 		list_step(&prev, &curr);
 	} while (prev != curr && ++L < N);
 	assert(L != N && "This should not happen!\n");
+
+	prev = curr = NULL;
+	list_free(&head);
 
 	return 0;
 }

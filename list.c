@@ -39,3 +39,23 @@ void list_step(list_t **prev, list_t **curr) {
 	*prev = *curr;
 	*curr = t;
 }
+
+void list_free(list_t **head) {
+	list_t *t, *c, *p;
+
+	if (head == NULL || *head == NULL)
+		return;
+
+	p = c = *head;
+	list_step(&p, &c);
+
+	do {
+		t = p;
+		list_step(&p, &c);
+		free(t);
+	} while (p != c);
+
+	free(p);
+	
+	*head = NULL;
+}
